@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
+    <style>
+
+        .wrap,.wrap2 {
+            width: 520px;
+            height: 298px;
+            overflow: hidden;
+            margin: 120px auto;
+            border: 1px solid deepskyblue;
+            position: relative;
+            z-index: 10;
+        }
+
+        .wrap ul li {
+            float: left;
+            display: inline;
+            width: 520px;
+
+        }
+
+
+
+        .wrap ul li img {
+            width: 100%;
+            height: auto;
+        }
+
+        .wrap .page,.wrap2 .page2 {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+
+            transform: translateX(-50%);
+            -webkit-transform: translateX(-50%);
+        }
+
+        .page ul li, .page2 ul li {
+            float: left;
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+            background: #333;
+            margin-right: 10px;
+            border: 1px solid #fff;
+        }
+
+        .page ul li.curr,.page2 ul li.curr{
+            background: #f38630;
+        }
+
+        .prev, .next ,.prev2, .next2{
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            line-height: 40px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .prev,.prev2 {
+            left: 10px;
+        }
+
+        .next,.next2{
+            right: 10px;
+        }
+
+
+        .wrap2 .goods-list2{
+            position: absolute;
+            left: 0;
+        }
+         .goods-list2 ul{
+             /*width: 9999px;*/
+         }
+        .goods-list2 ul li{
+            float: left;
+            display: inline;
+            width: 520px;
+            position: relative;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <div class="goods-list">
+        <ul class="clearfix" style="margin-left: -520px">
+            <li>
+                <img src="img/goods-4.jpg" alt=""/>4
+            </li>
+            <li>
+                <img src="img/goods-1.jpg"  alt=""/>1
+            </li>
+            <li>
+                <img src="img/goods-2.jpg" alt=""/>2
+            </li>
+            <li>
+                <img src="img/goods-3.jpg" alt=""/>3
+            </li>
+            <li>
+                <img src="img/goods-4.jpg" alt=""/>4
+            </li>
+            <li>
+                <img src="img/goods-1.jpg" alt=""/>1
+            </li>
+        </ul>
+    </div>
+
+    <div class="page">
+        <ul class="clearfix">
+            <li class="curr"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+
+
+    <a class="prev" href="javascript:void(0)"></a>
+    <a class="next" href="javascript:void(0)"></a>
+
+
+</div>
+<div class="wrap2">
+    <div class="goods-list2">
+        <ul class="clearfix">
+            <li class="list">
+                <img src="img/goods-4.jpg" alt=""/><p>1</p>
+            </li>
+            <li class="list">
+                <img src="img/goods-1.jpg" alt=""/><p>2</p>
+            </li>
+            <li class="list">
+                <img src="img/goods-2.jpg" alt=""/><p>3</p>
+            </li>
+            <li class="list">
+                <img src="img/goods-3.jpg" alt=""/><p>4</p>
+            </li>
+
+        </ul>
+    </div>
+    <div class="page2">
+        <ul class="clearfix">
+            <li class="curr"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <a class="btnC prev2" href="javascript:void(0)"></a>
+    <a class="btnC next2" href="javascript:void(0)"></a>
+</div>
+
+
+<script src="js/jquery-2.1.1.min.js"></script>
+
+<script>
+
+    $(function () {
+
+        var goodsList = $(".goods-list");
+        var goodsListUl = goodsList.find("ul");
+        var liLength = goodsList.find("li").length;
+        var liWidth = goodsList.find("li").width();
+        var ulWidth = $(".goods-list ul").width(liLength * liWidth);
+        var index = 0;
+        var animated = true;
+        var timer;
+
+        $(".page li").each(function (i, obj) {
+            $(obj).on("click", function () {
+
+                if ($(obj).hasClass("curr")) {
+                    return;
+                } else {
+                    if (animated) {
+                        $(obj).addClass("curr").siblings().removeClass("curr");
+                        var currIndex = i;
+                        console.log(i)
+                        var offset = (-520) * (currIndex - index)
+                        index = currIndex;
+                        animate(offset);
+                    }
+                }
+            })
+        });
+
+       var next= $(".next").on("click", function () {
+            move();
+       });
+       $(".prev").on("click", function () {
+           if (animated) {
+               if (index == 0) {
+                   index = 3;
+               } else {
+                   index -= 1;
+               }
+               $(".page li").eq(index).addClass("curr").siblings().removeClass("curr");
+               animate(520);
+           }
+       });
+       function move(){
+
+           if (animated) {
+               if (index == 3) {
+                   index = 0;
+               } else {
+                   index += 1;
+               }
+               $(".page li").eq(index).addClass("curr").siblings().removeClass("curr");
+               animate(-520);
+           }
+       }
+
+
+        function animate(offset) {
+
+            animated = false;
+            var marginL = parseInt(goodsListUl.css("marginLeft")) + offset;
+
+            goodsListUl.animate({
+
+                marginLeft: marginL
+            }, 1000, function () {
+                animated = true;
+                if (marginL < -2080) {
+                    goodsListUl.css({marginLeft: -520})
+                }
+                if (marginL > -520) {
+                    goodsListUl.css({marginLeft: -2080})
+                }
+//               debugger;
+            });
+
+        }
+        function play(){
+
+            timer=setInterval(move,3000);
+        }
+
+        play();
+
+
+
+        $(".wrap").on({mouseover:function(){
+            clearInterval(timer)
+        },mouseout:function(){
+            play()
+        }
+        });
+
+
+
+
+        var slideMove = (function(){
+            var goodsList2=$(".goods-list2");
+            var goodsUL2=goodsList2.find("ul")
+            var listLi=goodsList2.find("li");
+            var liLen=listLi.length;
+            var liWidth = listLi.width();
+            var ulWidth = goodsList2.width(liLen * liWidth);
+            var timer2;
+            var _index=0;
+            var animated2=true;
+
+            var animate1= function(offset){
+                var offsetL = parseInt(goodsList2.css("left")) + offset;
+                animated2 = false;
+                goodsList2.animate({
+                    left:offsetL
+                },1000,function(){
+
+                    if(offsetL<-3*520){
+                        goodsList2.css({left:0});
+                        listLi.first().css({left:0});
+                    }
+                    if(offsetL>0){
+                        goodsList2.css({left:-offset*_index});
+                        listLi.last().css({left:0});
+                    }
+                    animated2 = true;
+                })
+            };
+            var move1 = function(){
+
+                if(animated2){
+                    if(_index==3){
+                        listLi.first().css({
+                            left:liLen*520
+                        });
+                        _index=0;
+                    }else{
+                        _index+=1;
+
+                    }
+
+                    $(".page2 li").eq(_index).addClass("curr").siblings().removeClass("curr");
+                    animate1(-520);
+
+                }
+            };
+            var click=function(){
+
+                $(".btnC").on("click",function(){
+
+                   if($(this).hasClass("next2")){
+                       if(animated2){
+                           move1()
+                       }
+                   }
+                   else{
+                       if(animated2){
+                           if(_index==0){
+                               listLi.last().css({
+                                   left:-liLen*520
+                               });
+                               _index=3;
+                           }else{
+                               _index-=1;
+
+                           }
+
+                           $(".page2 li").eq(_index).addClass("curr").siblings().removeClass("curr");
+                           animate1(520);
+                       }
+                   }
+
+
+                })
+            };
+
+            var currClick=function(){
+                $(".page2 li").each(function (i, obj) {
+                    $(obj).on("click", function () {
+
+                        if ($(obj).hasClass("curr")) {
+                            return;
+                        } else {
+                            if (animated2) {
+                                $(obj).addClass("curr").siblings().removeClass("curr");
+                                var currIndex = i;
+                                var offset = (-520) * (currIndex - _index)
+                                _index = currIndex;
+                                animate1(offset);
+                            }
+                        }
+                    })
+                });
+            };
+
+            var autoPlay=function(){
+
+                function play1(){
+                    timer2=setInterval(move1,3000);
+                }
+
+                play1();
+
+
+                $(".wrap2").on({mouseover:function(){
+                    clearInterval(timer2)
+                },mouseout:function(){
+                    play1()
+                }
+                });
+            }
+
+            var init=function(){
+                slideMove.m3();
+                slideMove.m4();
+                slideMove.m5();
+            }
+            return {
+
+            m1 : animate1,
+            m2 : move1,
+            m3 : click,
+            m4 : currClick,
+            m5 : autoPlay,
+            m6 : init
+            };
+
+        })();
+        slideMove.m6();
+
+
+
+    });
+
+</script>
+</body>
+</html>
