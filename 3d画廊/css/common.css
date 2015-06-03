@@ -1,0 +1,39 @@
+body,dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, span, a, input, textarea, p, blockquote, th, td, header, nav, footer, article, section, aside, time, figure {
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+}
+body{
+    font: 12px/1.5 Microsoft Yahei,Heiti SC,Helvetica,HelveticaNeue,'Hiragino Sans GB', sans-serif;
+
+}
+img{
+    vertical-align: middle;
+}
+.clearfix:after{
+    display: table;
+    clear: both;
+    content: "";
+}
+.left{
+    float: left;
+    display: inline;
+}
+.right{
+    float: right;
+    display: inline;
+}
+.inline-block{
+    display: inline-block;
+}
+ul,li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+
+
+
+
+

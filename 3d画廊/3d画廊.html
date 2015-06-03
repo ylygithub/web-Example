@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="css/common.css"/>
+    <style>
+        html{
+            height: 100%;
+        }
+        body{
+            height: 100%;
+
+        }
+        .wrap{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            /*top:50%;*/
+            /*transform: translateY(-50%);*/
+            /*-webkit-transform: translateY(-50%);*/
+            background: #333;
+            overflow: hidden;
+
+
+        }
+        .box{
+            width: 100%;
+            height: 100%;
+        }
+
+        .photo{
+            width: 260px;
+            height: 320px;
+            position: absolute;
+            z-index: 1;
+            box-shadow: 0 0 1px rgba(0,0,0,0.1);
+            -moz-transition:all 0.3s ease-out;
+            -webkit-transition:all 0.3s ease;
+            transition:all 0.3s ease-out;
+
+            perspective:800px;
+            -webkit-perspective:800px;
+            -moz-perspective:800px;
+            
+        }
+        .photo .side{
+            width: 100%;
+            height: 100%;
+            background: #eee;
+            position: absolute;
+            top:0;
+            left: 0;
+            padding: 20px;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+        }
+
+        .photo .side-front .image{
+            width: 100%;
+            height: 250px;
+            line-height: 250px;
+            overflow: hidden;
+        }
+        .photo .side-front .image img{
+            width: 100%;
+            height: 100%;
+
+        }
+        .photo .side-front .tit{
+            text-align: center;
+            font-size: 16px;
+            line-height: 50px;
+
+        }
+
+        .photo .side-back .desc{
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5em;
+        }
+        .photo_center{
+            left: 50%;
+            top:50%;
+            margin-top: -160px;
+            margin-left:-130px ;
+            z-index: 999;
+
+        }
+        .photo-wrap {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            -moz-transform-style: preserve-3d;
+            -webkit-transform-style:preserve-3d;
+            transform-style:preserve-3d;
+            -moz-transition:transform 1s ease-out;
+            -webkit-transition:-webkit-transform 1s ease-out;
+            transition:transform 1s ease-out;
+            -moz-transform-origin:0% 50%;
+            -webkit-transform-origin:0% 50%;
+
+        }
+        .photo-wrap .side-front{
+            -webkit-transform:rotateY(0deg);
+            -moz-transform:rotateY(0deg)
+        }
+        .photo-wrap .side-back{
+            -webkit-transform:rotateY(180deg);
+            -moz-transform:rotateY(180deg);
+        }
+        .photo-wrap .side{
+            -webkit-backface-visibility:hidden;
+            backface-visibility:hidden;
+            -moz-backface-visibility:hidden;
+
+        }
+        .photo_front .photo-wrap{
+            -moz-transform:translate(0px,0px) rotateY(0deg) ;
+            -webkit-transform:translate(0px,0px) rotateY(0deg);
+        }
+        .photo_back .photo-wrap{
+            -moz-transform:translate(260px,0px) rotateY(180deg);
+            -webkit-transform:translate(260px,0px) rotateY(180deg);
+        }
+        .nav ul li{
+           display: inline-block;
+            width: 30px;
+            height: 30px;
+
+            border-radius: 100%;
+            background: #aaa;
+            margin-right: 15px;
+            -moz-transform:scale(0.4);
+            -moz-transition:transform 0.5s ease-out;
+            -webkit-transform:scale(0.4);
+            -webkit-transition:-webkit-transform 0.5s ease-out;
+        }
+        .nav ul{
+            width: 100%;
+        }
+        .nav {
+            position: absolute;
+            background: #ffffff;
+            width: 800px;
+            height: 30px;
+            line-height: 30px;
+            bottom: 10%;
+            z-index: 999;
+            left: 50%;
+            -moz-transform: translateX(-50%);
+            -webkit-transform: translateX(-50%);
+            text-align: center;
+        }
+        .nav li.curr{
+            -moz-transform:scale(0.8);
+            -webkit-transform:scale(0.8);
+        }
+        .photo{
+            top:50%;
+            left: 50%;
+            margin-left: -130px;
+            margin-top: -160px;
+
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="box"></div>
+        <div class="nav">
+            <ul class="clearfix"></ul>
+        </div>
+    </div>
+<script src="../无缝滚动/js/jquery-2.1.1.min.js"></script>
+<script>
+
+    $(function(){
+
+
+        var data=[{
+            tit:"标题1",src:"img/1.large.jpg",desc:"图片1"
+        },{
+            tit:"标题2",src:"img/2.large.jpg",desc:"图片2"
+        },{
+            tit:"标题3",src:"img/3.large.jpg",desc:"图片3"
+        },{
+            tit:"标题4",src:"img/4.large.jpg",desc:"图片4"
+        },{
+            tit:"标题5",src:"img/5.large.jpg",desc:"图片5"
+        },{
+            tit:"标题6",src:"img/6.large.jpg",desc:"图片6"
+        },{
+            tit:"标题7",src:"img/7.large.jpg",desc:"图片7"
+        },{
+            tit:"标题8",src:"img/8.large.jpg",desc:"图片8"
+        },{
+            tit:"标题9",src:"img/9.large.jpg",desc:"图片9"
+        },{
+            tit:"标题10",src:"img/10.large.jpg",desc:"图片10"
+        },{
+            tit:"标题11",src:"img/11.large.jpg",desc:"图片11"
+        },{
+            tit:"标题12",src:"img/goods-1.jpg",desc:"图片12"
+        },{
+            tit:"标题13",src:"img/goods-2.jpg",desc:"图片13"
+        },{
+            tit:"标题14",src:"img/goods-3.jpg",desc:"图片14"
+        },{
+            tit:"标题15",src:"img/goods-4.jpg",desc:"图片15"
+        }
+
+        ];
+        var html='';
+
+        var nav='';
+        function initHtml(){
+
+            $.each(data,function(i,obj){
+                html+='<div class="photo photo_front" id="photo_'+i+'">'+
+                        '<div class="photo-wrap">'+
+                        '<div class="side side-front">'+
+                        '<div class="image">'+
+                        '<img src='+ data[i].src+' alt=""/>'+
+                        '</div>'+
+                        '<div class="tit">'+data[i].tit+'</div>'+
+                        '</div>'+
+                        '<div class="side side-back">'+
+                        '<div class="desc">'+data[i].desc+'</div>'+
+                        '</div>'+
+                        '</div>'+
+                        '</div>';
+                nav+='<li class="btn-i" id="nav_'+i+'"><span></span></li>'
+            });
+
+            $(".box").append(html);
+            $(".nav ul").append(nav);
+            rsotr(random([0,data.length-1]));
+
+        }
+        initHtml();
+
+
+
+        function rsotr(n){
+            var photo=$(".photo");
+            var photoArray=[];
+            $.each(photo,function(i,obj){
+
+                $(obj).removeClass("photo_center");
+                photoArray.push(photo[i])
+
+            })
+
+
+            var photo_center=$("#photo_"+n).addClass("photo_center").css({left:"",top:"",transform:"",webkitTransform:""});
+            var nav_curr=$("#nav_"+n).addClass("curr");
+            photo_center=photoArray.splice(n,1)[0];
+
+            var photo_left=photoArray.splice(0,parseInt(photoArray.length/2));
+            var photo_right=photoArray;
+
+            var setOffset=range();
+
+            for(var i=0;i<photo_left.length;i++){
+                var photos=photo_left[i];
+
+                $(photos).css({left:random(setOffset.left.x),top:(random(setOffset.left.y)),transform:'rotate('+random([0,360])+'deg) scale(0.75)',webkitTransform:'rotate('+random([0,360])+'deg) scale(0.75)'})
+            }
+            for(var j=0;j<photo_right.length;j++){
+                var photos=photo_right[j];
+                $(photos).css({left:random(setOffset.right.x),top:(random(setOffset.right.y)),transform:'rotate('+random([0,360])+'deg) scale(0.75)',webkitTransform:'rotate('+random([0,360])+'deg) scale(0.75)'})
+            }
+        }
+        function random(range){
+            var max=Math.max(range[0],range[1]);
+            var min=Math.min(range[0],range[1]);
+
+            var diff=max-min;
+            var number=Math.ceil(Math.random()*diff)+min;
+            return number;
+
+
+        }
+
+        function range(){
+            var range={
+                left:{x:[],y:[]},
+                right:{x:[],y:[]}
+            }
+            var wrap={
+                w:$(".wrap").width(),
+                h:$(".wrap").height()
+            }
+            var photo={
+                w:$(".photo").width(),
+                h:$(".photo").height()
+            }
+
+            range.left.x=[0-photo.w,wrap.w/2-photo.w/2];
+            range.left.y=[0-photo.h,wrap.h]
+
+            range.right.x=[wrap.w/2+photo.w/2,wrap.w+photo.w];
+            range.right.y= range.left.y;
+
+            return range;
+
+        };
+
+        var animated = true;
+        $(".photo").each(function(i,obj){
+            $(obj).on("click",function(){
+
+                rotate(this);
+                $(obj).siblings().removeClass("photo_back")
+                if($(obj).hasClass("photo_center")){
+                    return
+                }else{
+                    $(".btn-i").eq(i).addClass("curr").siblings().removeClass("curr");
+                    $(obj).addClass("photo_center").siblings().removeClass("photo_center");
+                    rsotr(i);
+                    $(obj).removeClass("photo_back").addClass("photo_front");
+                }
+
+            });
+        })
+
+        $(".btn-i").each(function(i,obj){
+
+            $(obj).on("click",function(){
+                $(obj).addClass("curr").siblings().removeClass("curr");
+
+                var ele=$(".photo").eq(i);
+                rotate(ele);
+                $(ele).siblings().removeClass("photo_back")
+                if($("#photo_"+i).hasClass("photo_center")){
+                    return;
+                }else{
+                    $("#photo_"+i).addClass("photo_center").siblings().removeClass("photo_center");
+                    rsotr(i);
+                    $(ele).removeClass("photo_back").addClass("photo_front");
+
+                }
+
+            })
+        });
+        function rotate(ele){
+
+
+                var hasCls=$(ele).hasClass("photo_front");
+                if(hasCls){
+                    if(animated){
+                        $(ele).removeClass("photo_front").addClass("photo_back");
+                        animated=false;
+                        setTimeout(function(){
+                            animated=true;
+                        },1000)
+                    }
+                }else{
+                    if(animated){
+                        $(ele).removeClass("photo_back").addClass("photo_front");
+                        animated=false;
+                        setTimeout(function(){
+                            animated=true;
+                        },1000)
+                    }
+
+                }
+
+
+
+
+
+        }
+    });
+
+
+
+</script>
+</body>
+</html>
