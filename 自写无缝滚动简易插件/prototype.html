@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <style>
+        .Y_silde,.Y_silde2{
+            width: 520px;
+            height: 280px;
+            overflow: hidden;
+            margin: 120px auto;
+            border: 1px solid deepskyblue;
+            position: relative;
+            z-index: 10;
+            -webkit-user-select:none;
+        }
+        .slide-list .slide-item{
+            float: left;
+            display: inline;
+        }
+        .slide-list img {
+            width: 100%;
+            height: auto;
+        }
+        .pagination {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+
+            transform: translateX(-50%);
+            -webkit-transform: translateX(-50%);
+        }
+
+        .pagination ul li{
+            float: left;
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+            background: #333;
+            margin-right: 10px;
+            border: 1px solid #fff;
+
+        }
+
+        .pagination ul li.curr{
+            background: #f38630;
+        }
+
+        .prev, .next{
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            line-height: 40px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .prev{
+            left: 10px;
+        }
+
+        .next{
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="Y_silde">
+
+</div>
+<div class="Y_silde2">
+
+</div>
+<script src="../无缝滚动/js/jquery-2.1.1.min.js"></script>
+<script src="js/y_slide.js"></script>
+<script>
+    $(function(){
+
+        Y_silde.newSlide($(".Y_silde"),{});
+        Y_silde.newSlide($(".Y_silde2"),{type:"left"});
+    })
+</script>
+</body>
+</html>
